@@ -3,13 +3,9 @@
 #### Trinary masks serve as input for creating 3D heatmaps of bone volume fraction
 #################
 
-folder <- "C://Users//jaap.saers//Scans_R//input//"
-batchfolder <- "C://Users//jaap.saers//Scans_R//output//"
-
-df_list <- list()
 
 
-trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel = 11, steps = 4, pad=40) {
+trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel = 11, steps = 4, pad=40,df_list = list()) {
   d_e_strel <-  makeBrush(size=strel,shape="disc") # size of filling element in pixels
   d_e_steps <-  steps  # number of initial erosion and dilation steps to close the shell
   folderlist <- list.files(folder)
