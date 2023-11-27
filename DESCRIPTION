@@ -1,0 +1,10 @@
+Package: trabmap
+Type: Package
+Title: produces 3D maps of trabecular bone properties
+Version: 0.1.0
+Author: Jaap Saers
+Maintainer: <jaap.saers@naturalis.nl>
+Description: functions to take binary image stacks of bone and produce 3D heatmaps of trabecular properties
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
