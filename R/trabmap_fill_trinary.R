@@ -5,10 +5,17 @@
 
 
 
-trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel = 11, steps = 4, pad=40,df_list = list()) {
+trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel = 11, steps = 4, pad=TRUE,df_list = list()) {
   d_e_strel <-  makeBrush(size=strel,shape="disc") # size of filling element in pixels
   d_e_steps <-  steps  # number of initial erosion and dilation steps to close the shell
   folderlist <- list.files(folder)
+
+  #padding to avoid potential edge effects
+  if (pad == TRUE){
+    pad <- steps*strel
+  } else{
+    pad <- 0
+  }
 
 
   for (i in 1:length(folderlist)) {
