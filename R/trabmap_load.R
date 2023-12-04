@@ -1,11 +1,5 @@
 trabmap_load <- function(){
 
-  if(length(c("EBImage", "tiff", "oro.nifti", "foreach", "mmand", "doParallel", "BiocManager", "iterators", "parallel", "doSNOW", "progress", "plyr", "tidyverse")[!c("EBImage", "tiff", "oro.nifti", "foreach", "mmand", "doParallel", "BiocManager", "iterators", "parallel", "doSNOW", "progress", "plyr", "tidyverse") %in% installed.packages()[,"Package"]]) > 0){
-    install.packages(c("EBImage", "tiff", "oro.nifti", "foreach", "mmand", "doParallel", "BiocManager", "iterators", "parallel", "doSNOW", "progress", "plyr", "tidyverse")[!c("EBImage", "tiff", "oro.nifti", "foreach", "mmand", "doParallel", "BiocManager", "iterators", "parallel", "doSNOW", "progress", "plyr", "tidyverse") %in% installed.packages()[,"Package"]])
-  }
-
-
-  library(EBImage)
   library(tiff)
   library(oro.nifti)
   library(foreach)
@@ -17,4 +11,6 @@ trabmap_load <- function(){
   library(doSNOW)
   library(progress)
   library(plyr)
+  library(indianaBones)
+  library(EBImage)
 }

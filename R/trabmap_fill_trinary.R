@@ -3,8 +3,6 @@
 #### Trinary masks serve as input for creating 3D heatmaps of bone volume fraction
 #################
 
-
-
 trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel = 11, steps = 4, pad=TRUE,df_list = list()) {
   d_e_strel <-  makeBrush(size=strel,shape="disc") # size of filling element in pixels
   d_e_steps <-  steps  # number of initial erosion and dilation steps to close the shell
@@ -23,7 +21,8 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
 
     print(paste("now running: ", folderlist[i]))
-    vol<-readTiffStack(path=paste(folder, folderlist[i], sep=""), cores=1)
+    vol<-trabmap_readtiffstack(path=paste(folder, folderlist[i], sep=""), cores=1)
+    #vol<-readTiffStack(path=paste(folder, folderlist[i], sep=""), cores=1)
     #memory.limit()
     gc() #clears memory
 
@@ -61,6 +60,16 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
 
     trinary_mask <- vol[,,] + mask #calculate with uncropped data
+
+    if(pad > 0){
+      trinary_mask <- trinary_mask[(pad+1):(dims[1]-pad),
+                                   (pad+1):(dims[2]-pad),
+                                   (pad+1):(dims[3]-pad)]
+
+      mask <- mask[(pad+1):(dims[1]-pad),
+                   (pad+1):(dims[2]-pad),
+                   (pad+1):(dims[3]-pad)]
+    }
 
 
 
