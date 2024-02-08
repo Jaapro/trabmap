@@ -53,7 +53,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
       mask<-EBImage::fillHull(mask)
     } else {
       for(j in 1:d_e_steps){mask<-EBImage::dilate(mask,d_e_strel)}
-      mask<-EBImage::closing(mask,d_e_strel)
+      #mask<-EBImage::closing(mask,d_e_strel)
       for(j in 1:d_e_steps){mask<-EBImage::erode(mask,d_e_strel)}
       mask<-EBImage::fillHull(mask)
     }
