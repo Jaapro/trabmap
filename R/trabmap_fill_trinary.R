@@ -56,7 +56,6 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
       #mask<-EBImage::closing(mask,d_e_strel)
       mask<-EBImage::fillHull(mask)
       for(j in 1:d_e_steps){mask<-EBImage::erode(mask,d_e_strel)}
-      #mask<-EBImage::fillHull(mask)
     }
 
 
@@ -75,7 +74,33 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
 
 
+
     dir.create(paste(expfolder,"//tiffstacks", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
+    png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill_xy.png", sep=""), width=350, height=350)
+    image(mask[,,0.5*dims[3]], main = paste(folderlist[i]," Fill XY"))
+    dev.off()
+
+    png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill_xz.png", sep=""), width=350, height=350)
+    image(mask[,0.5*dims[2],], main = paste(folderlist[i]," Fill XZ"))
+    dev.off()
+
+    png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill_yz.png", sep=""), width=350, height=350)
+    image(mask[0.5*dims[1],,], main = paste(folderlist[i]," Fill YZ"))
+    dev.off()
+
+    png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_trinary_xy.png", sep=""), width=350, height=350)
+    image(trinary_mask[,,0.5*dims[3]], main = paste(folderlist[i]," trinary XY"))
+    dev.off()
+
+    png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_trinary_xz.png", sep=""), width=350, height=350)
+    image(trinary_mask[,0.5*dims[2],], main = paste(folderlist[i]," trinary XZ"))
+    dev.off()
+
+    png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_trinary_yz.png", sep=""), width=350, height=350)
+    image(trinary_mask[0.5*dims[1],,], main = paste(folderlist[i]," trinary YZ"))
+    dev.off()
+
 
     print(paste("Exporting fill of : ", folderlist[i]))
     dir.create(paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
