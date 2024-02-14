@@ -111,7 +111,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     df$whole_bone_volume_mm3 <- floor(bone_volume_mm3)
 
 
-    write.csv(df, file = paste(expfolder,"//",folderlist_name,"_results.csv", sep=""),row.names = FALSE)
+    write.csv(df, file = paste(expfolder,"//",folderlist[i],"_results.csv", sep=""),row.names = FALSE)
 
 
 
