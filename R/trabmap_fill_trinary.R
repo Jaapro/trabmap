@@ -71,7 +71,47 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
                    (pad+1):(dims[3]-pad)]
     }
 
+    ###############
+    ###############    calculate some stuff
+    ###############
+    message("calculating whole bone summary variables")
+    ##### calculate BVTV relative to the volume of the whole bone (including cortical volume)
+    ##### the sum of these three may be slightly different from 1, I assume due to the cleaning stage
 
+    whole_bone_bvtv <- sum(vol) / sum(mask)
+    whole_bone_marrow_space <- 1 - whole_bone_bvtv
+
+    voxel_cube <- voxelsize^3
+
+
+    total_volume_mm3 <- sum(mask) * voxel_cube
+    marrow_volume_mm3 <- whole_bone_marrow_space * total_volume_mm3
+    bone_volume_mm3 <- whole_bone_bvtv * total_volume_mm3
+
+    #save calculations
+    df <- as.data.frame(folderlist[i])
+    df$voxelsize <- voxelsize
+    df$voi_diameter_mm <- "N/A"
+    df$voi_interval_mm <- "N/A"
+    df$strel_diameter <- strel
+    df$iters_mask <- steps
+    df$iters_fill <- "N/A"
+    df$iters_compact <- "N/A"
+    df$clean_voids <- "N/A"
+    df$trabecular_bvtv <- "N/A"
+    df$whole_bone_bvtv <- whole_bone_bvtv
+    df$whole_bone_trab_bvtv <- "N/A"
+    df$whole_bone_cort_bvtv <- "N/A"
+    df$whole_bone_marrow_bvtv <- whole_bone_marrow_space
+    df$total_volume_mm3 <- floor(total_volume_mm3)
+    df$trabecular_volume_mm3 <- "N/A"
+    df$cortical_volume_mm3 <- "N/A"
+    df$marrow_trabecular_volume_mm3 <- "N/A"
+    df$marrow_volume_mm3 <- floor(marrow_volume_mm3)
+    df$whole_bone_volume_mm3 <- floor(bone_volume_mm3)
+
+
+    write.csv(df, file = paste(expfolder,"//",folderlist_name,"_results.csv", sep=""),row.names = FALSE)
 
 
 
