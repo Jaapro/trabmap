@@ -55,7 +55,7 @@ trabmap_combine_nifti_b <- function(folder, writefolder, corenumber=1, voxelsize
   closeAllConnections()
   gc()
 
-  message(paste("saving merged - ", folderlist[i], sep=""))
+  message(paste("saving merged - ", folderlist[1], sep=""))
   trabnifti<-as.nifti(result)
   trabnifti@pixdim[2:4]<-c(voxelsize,voxelsize,voxelsize)
   writeNIfTI(nim=trabnifti,filename=paste(writefolder,"//",folderlist[1],"_merged", sep=""),gzipped=F)
