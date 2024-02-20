@@ -8,8 +8,10 @@ trabmap_combine_nifti_b <- function(folder, writefolder, corenumber=1, voxelsize
 
 
   if(l == 2) {
+    message(paste("reading - ", folderlist[1], sep=""))
     ra <- readNIfTI(paste(folder, folderlist[1], sep=""))
     dimsra <- dim(ra)
+    message(paste("reading - ", folderlist[2], sep=""))
     rb <- readNIfTI(paste(folder, folderlist[2], sep=""))
     dimsrb <- dim(rb)
     result = array(c(ra,rb),dim = c(dimsra[1],dimsra[2],dimsra[3] + dimsrb[3]))
