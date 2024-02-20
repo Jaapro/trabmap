@@ -38,6 +38,7 @@ trabmap_fill_trinary_chopped <- function(folder, writefolder, voxelsizelist = c(
 
     vol<- big_array
     rm(big_array)
+    gc()
 
     dims <- dim(vol)
     n <- 0.5*dims[3]
