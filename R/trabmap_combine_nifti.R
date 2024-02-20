@@ -1,75 +1,61 @@
 #put nifti files in a folder, read all the nifti files, merge them, and export as merged nifti
 
-trabmap_combine_nifti <- function(folder, writefolder, corenumber=1, voxelsize = c(0.3)){
+trabmap_combine_nifti_b <- function(folder, writefolder, corenumber=1, voxelsize = c(0.3)){
 
   folderlist <- trabmap_folder_list(folder)
-
-  stacklist <- list()
-
-
-
-  for (i in 1:length(folderlist)) {
-    message(paste("running whole bone analysis - ", folderlist[i], sep=""))
-
-    gc()
-
-    stacklist[[i]] <- readNIfTI(paste(folder, folderlist[i], sep=""))
-
-  }
 
   l <- length(folderlist)
 
 
   if(l == 2) {
-    ra<-simplify2array(stacklist[[1]])
-    dims <- dim(ra)
-    rb <- simplify2array(stacklist[[2]])
-    result = array(c(ra,rb),dim = c(dims[1],dims[2],dims[3]*l))
+    ra <- readNIfTI(paste(folder, folderlist[1], sep=""))
+    dimsra <- dim(ra)
+    rb <- readNIfTI(paste(folder, folderlist[2], sep=""))
+    dimsrb <- dim(rb)
+    result = array(c(ra,rb),dim = c(dimsra[1],dimsra[2],dimsra[3] + dimsrb[3]))
+    rm(ra)
+    rm(rb)
 
   }
 
   if(l == 3) {
-    ra<-simplify2array(stacklist[[1]])
-    dims <- dim(ra)
-    rb <- simplify2array(stacklist[[2]])
-    rc <- simplify2array(stacklist[[2]])
-    result = array(c(ra,rb, rc),dim = c(dims[1],dims[2],dims[3]*l))
+    ra <- readNIfTI(paste(folder, folderlist[1], sep=""))
+    dimsra <- dim(ra)
+    rb <- readNIfTI(paste(folder, folderlist[2], sep=""))
+    dimsrb <- dim(rb)
+    rc <- readNIfTI(paste(folder, folderlist[3], sep=""))
+    dimsrc <- dim(rc)
+    result = array(c(ra,rb,rc),dim = c(dimsra[1],dimsra[2],dimsra[3] + dimsrb[3] + dimsrc[3]))
+    rm(ra)
+    rm(rb)
+    rm(rc)
 
   }
 
   if(l == 4) {
-    ra<-simplify2array(stacklist[[1]])
-    dims <- dim(ra)
-    rb <- simplify2array(stacklist[[2]])
-    rc <- simplify2array(stacklist[[3]])
-    rd <- simplify2array(stacklist[[4]])
-    result = array(c(ra, rb, rc, rd),dim = c(dims[1],dims[2],dims[3]*l))
+    ra <- readNIfTI(paste(folder, folderlist[1], sep=""))
+    dimsra <- dim(ra)
+    rb <- readNIfTI(paste(folder, folderlist[2], sep=""))
+    dimsrb <- dim(rb)
+    rc <- readNIfTI(paste(folder, folderlist[3], sep=""))
+    dimsrc <- dim(rc)
+    rc <- readNIfTI(paste(folder, folderlist[4], sep=""))
+    dimsrd <- dim(rd)
+    result = array(c(ra,rb,rc, rd),dim = c(dimsra[1],dimsra[2], dimsra[3] + dimsrb[3] + dimsrc[3] + dimsrd[3]))
+    rm(ra)
+    rm(rb)
+    rm(rc)
+    rm(rd)
 
   }
 
-  if(l == 5) {
-    ra<-simplify2array(stacklist[[1]])
-    dims <- dim(ra)
-    rb <- simplify2array(stacklist[[2]])
-    rc <- simplify2array(stacklist[[3]])
-    rd <- simplify2array(stacklist[[4]])
-    re <- simplify2array(stacklist[[5]])
-    result = array(c(ra, rb, rc, rd, re),dim = c(dims[1],dims[2],dims[3]*l))
-
-  }
-  rm(stacklist)
-  rm(ra)
-  rm(rb)
-  rm(rc)
-  rm(rd)
-  rm(re)
   closeAllConnections()
   gc()
 
-  message(paste("saving merged - ", folderlist[i], sep=""))
+  message(paste("saving merged - ", folderlist[1], sep=""))
   trabnifti<-as.nifti(result)
   trabnifti@pixdim[2:4]<-c(voxelsize,voxelsize,voxelsize)
-  writeNIfTI(nim=trabnifti,filename=paste(writefolder,"//",folderlist[i],"_merged", sep=""),gzipped=F)
+  writeNIfTI(nim=trabnifti,filename=paste(writefolder,"//",folderlist[1],"_merged", sep=""),gzipped=F)
   rm(result)
 
   gc()
