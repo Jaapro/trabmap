@@ -63,12 +63,10 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
     if(pad > 0){
       trinary_mask <- trinary_mask[(pad+1):(dims[1]-pad),
-                                   (pad+1):(dims[2]-pad),
-                                   (pad+1):(dims[3]-pad)]
+                                   (pad+1):(dims[2]-pad),]
 
       mask <- mask[(pad+1):(dims[1]-pad),
-                   (pad+1):(dims[2]-pad),
-                   (pad+1):(dims[3]-pad)]
+                   (pad+1):(dims[2]-pad),]
     }
 
     dims <- dim(mask)
