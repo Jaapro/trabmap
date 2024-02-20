@@ -71,6 +71,8 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
                    (pad+1):(dims[3]-pad)]
     }
 
+    dims <- dim(mask)
+
     ###############
     ###############    calculate some stuff
     ###############
