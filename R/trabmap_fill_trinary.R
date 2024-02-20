@@ -142,6 +142,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     png(file= paste(expfolder,"//tiffstacks//" ,folderlist[i],"_trinary_yz.png", sep=""), width=350, height=350)
     image(trinary_mask[0.5*dims[1],,], main = paste(folderlist[i]," trinary YZ"))
     dev.off()
+    gc()
 
 
     print(paste("Exporting fill of : ", folderlist[i]))
