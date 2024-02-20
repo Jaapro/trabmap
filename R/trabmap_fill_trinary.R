@@ -32,9 +32,9 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
     #pad the dataset to avoid edge effects later
     #padding the original image stack with zeros so that the edges can be measured with VOIs
-    big_array <- array(0, c(dims[1]+2*pad, dims[2] + 2*pad ,dims[3] + 2*pad)) #creates array filled with 0 that is bigger than the original image based on the voi size
+    big_array <- array(0, c(dims[1]+2*pad, dims[2] + 2*pad , dims[3])) #creates array filled with 0 that is bigger than the original image based on the voi size
     #create padded image by summing the big array with the smaller vol array
-    big_array[(pad + 1):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) , (pad +1):(dims[3] + pad)] <- vol[,,] + big_array[(pad +1 ):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) ,(pad +1):(dims[3] + pad)]
+    big_array[(pad + 1):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) , ] <- vol[,,] + big_array[(pad +1 ):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) ,]
 
     vol<- big_array
     rm(big_array)
