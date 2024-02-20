@@ -115,6 +115,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     write.csv(df, file = paste(expfolder,"//",folderlist[i],"_results.csv", sep=""),row.names = FALSE)
 
 
+    rm(vol)
 
     dir.create(paste(expfolder,"//tiffstacks", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
 

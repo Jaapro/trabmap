@@ -65,7 +65,6 @@ trabmap_fill_trinary_chopped <- function(folder, writefolder, voxelsizelist = c(
 
 
     trinary_mask <- vol[,,] + mask #calculate with uncropped data
-    rm(vol)
 
     if(pad > 0){
       trinary_mask <- trinary_mask[(pad+1):(dims[1]-pad),
@@ -119,7 +118,8 @@ trabmap_fill_trinary_chopped <- function(folder, writefolder, voxelsizelist = c(
 
     write.csv(df, file = paste(expfolder,"//",folderlist[i],"_results.csv", sep=""),row.names = FALSE)
 
-
+    rm(vol)
+    gc()
 
     dir.create(paste(expfolder,"//tiffstacks", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
