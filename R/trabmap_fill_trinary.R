@@ -147,6 +147,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     dir.create(paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     writeTiffStack(Stack=mask,path=paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""),leadname=paste(folderlist[i],"_fill", sep=""))
     rm(mask)
+    gc()
 
 
     print(paste("Exporting as nifti - trinary mask of : ", folderlist[i]))

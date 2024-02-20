@@ -53,6 +53,7 @@ trabmap_fill_trinary_chopped <- function(folder, writefolder, voxelsizelist = c(
     z_start <- 1
 
     for (n in 1:stacks) {
+      message(paste(c("now performing: dilation, erosion, and fill ", n/stacks)))
       z_end <- ceiling((n*(1/stacks)*dims[3]))
 
       mask[,,z_start:z_end] <- trabmap_fill(mask = mask[,,z_start:z_end], steps = steps, strel = strel)
@@ -151,6 +152,7 @@ trabmap_fill_trinary_chopped <- function(folder, writefolder, voxelsizelist = c(
     dir.create(paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     writeTiffStack(Stack=mask,path=paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""),leadname=paste(folderlist[i],"_fill", sep=""))
     rm(mask)
+    gc()
 
 
     print(paste("Exporting as nifti - trinary mask of : ", folderlist[i]))
