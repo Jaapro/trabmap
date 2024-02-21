@@ -167,15 +167,15 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     #export views of the BV/TV map in three planes through the center of the image stack
     p <- hcl.colors(50, "Spectral", rev = TRUE) #colours for images
 
-    png(file= paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV_map_xy.png", sep=""), width=350, height=350)
+    png(file= paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV_map_xy_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm.png", sep=""), width=350, height=350)
     image(ra[,,0.5*dims_ra[3]],col=p, main = paste(folderlist[i], " xy BV/TV, marrow", sep=""))
     dev.off()
 
-    png(file= paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV_map_xz.png", sep=""), width=350, height=650)
+    png(file= paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV_map_xz_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm.png", sep=""), width=350, height=650)
     image(ra[,0.5*dims_ra[2],],col=p, main = paste(folderlist[i], " xy BV/TV, marrow", sep=""))
     dev.off()
 
-    png(file= paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV_map_yz.png", sep=""), width=350, height=650)
+    png(file= paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV_map_yz_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm.png", sep=""), width=350, height=650)
     image(ra[0.5*dims_ra[1],,],col=p, main = paste(folderlist[i], " xy BV/TV, marrow", sep=""))
     dev.off()
 
@@ -185,7 +185,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     dir.create(paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     trabnifti<-as.nifti(ra)
     trabnifti@pixdim[2:4]<-c(voxelsize,voxelsize,voxelsize)
-    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//BVTV_maps//",folderlist[i],"_BVTV//",folderlist[i],"_BVTV", sep=""),gzipped=F)
+    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//BVTV_maps//",folderlist[i],"_BVTV//",folderlist[i],"_BVTV_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm", sep=""),gzipped=F)
     gc()
     closeAllConnections()
   }
