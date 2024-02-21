@@ -156,7 +156,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     stopCluster(cluster) #stop parallel processing
 
 
-    expfolder <- c(paste(writefolder,"//", folderlist[i],"_IB",  sep = ""))
+    expfolder <- c(paste(writefolder,"//", folderlist[i],"BVTV_IB",  sep = ""))
     dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
     #create directory to export the bvtv maps
