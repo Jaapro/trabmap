@@ -13,6 +13,7 @@
 #'
 #' @export
 
+
 trabmap_readtiffstack<-function(path,cores = 1){
   require(tiff)
   require(doParallel)
