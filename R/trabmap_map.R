@@ -21,8 +21,11 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     #trinary trab mask
     tb_array <- readNIfTI(paste(folder, folderlist[i], sep=""))
 
+    dims_slice <- dim(tb_array)
+    tb_array <- as.integer(tb_array)
+    tb_array <- array(tb_array, c(dims[1], dims[2], dims[3]))
 
-    dims_slice <- dim(tb_array) #get the length width and depth of the imagestack
+
     voxelsize_original <- voxelsizelist[i] # voxelsize of the original image
 
     voisize <- floor(voi_diameter_mm/voxelsize_original) # VOI diameter in pixels -- MUST BE ODD
@@ -58,6 +61,11 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
 
     #padding the original image stack with zeros so that the edges can be measured with VOIs
     big_array <- array(0, c(dims_slice[1]+voisize, dims_slice[2] + voisize ,dims_slice[3] + voisize)) #creates array filled with 0 that is bigger than the original image based on the voi size
+    ba_dims <- dim(big_array)
+    big_array <- as.integer(big_array)
+    big_array <- array(big_array, c(ba_dims[1], ba_dims[2], ba_dims[3]))
+
+
     #create padded image by summing the big array with the smaller tb_array array
     big_array[(0.5*voisize + 1):(dims_slice[1] + 0.5*voisize) ,(0.5*voisize + 1):(dims_slice[2] + 0.5*voisize) , (0.5*voisize +1):(dims_slice[3] + 0.5*voisize)] <- tb_array[,,] + big_array[(0.5*voisize +1 ):(dims_slice[1] + 0.5*voisize) ,(0.5*voisize + 1):(dims_slice[2] + 0.5*voisize) ,(0.5*voisize +1):(dims_slice[3] + 0.5*voisize)]
     dims_padded <- dim(big_array) #get the length width and depth of the imagestack

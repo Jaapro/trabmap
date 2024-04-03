@@ -22,21 +22,28 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
     print(paste("now running: ", folderlist[i]))
     vol<-trabmap_readtiffstack(path=paste(folder, folderlist[i], sep=""), cores=1)
+    dims <- dim(vol)
+    vol <- as.integer(vol)
+    vol <- array(vol, c(dims[1], dims[2], dims[3]))
     #vol<-readTiffStack(path=paste(folder, folderlist[i], sep=""), cores=1)
     #memory.limit()
     gc() #clears memory
 
 
-    dims <- dim(vol)
+
 
 
     #pad the dataset to avoid edge effects later
     #padding the original image stack with zeros so that the edges can be measured with VOIs
     big_array <- array(0, c(dims[1]+2*pad, dims[2] + 2*pad , dims[3])) #creates array filled with 0 that is bigger than the original image based on the voi size
+    ba_dims <- dim(big_array)
+    big_array <- as.integer(big_array)
+    big_array <- array(big_array, c(ba_dims[1], ba_dims[2], ba_dims[3]))
     #create padded image by summing the big array with the smaller vol array
     big_array[(pad + 1):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) , ] <- vol[,,] + big_array[(pad +1 ):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) ,]
 
     vol<- big_array
+
     rm(big_array)
     gc()
 
