@@ -2,7 +2,6 @@
 trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 0.5 ) {
 
   folderlist <- trabmap_folder_list(folder)
-
   for (i in 1:length(folderlist)) {
     tb_array <- readNIfTI(paste(folder, folderlist[i], sep=""))
 
