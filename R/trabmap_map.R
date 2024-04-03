@@ -18,14 +18,10 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     gc()
     #trinary trab mask
     tb_array <- readNIfTI(paste(folder, folderlist[i], sep=""))
-    message(paste("determining dims - ", folderlist[i], sep=""))
-
-
     dims <- dim(tb_array)
-    message(paste("int step - ", folderlist[i], sep=""))
 
     tb_array <- as.integer(tb_array)
-    message(paste("int array step - ", folderlist[i], sep=""))
+    gc()
 
     tb_array <- array(tb_array, c(dims[1], dims[2], dims[3]))
 

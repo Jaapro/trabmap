@@ -24,6 +24,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     vol<-trabmap_readtiffstack(path=paste(folder, folderlist[i], sep=""), cores=1)
     dims <- dim(vol)
     vol <- as.integer(vol)
+    gc()
     vol <- array(vol, c(dims[1], dims[2], dims[3]))
     #vol<-readTiffStack(path=paste(folder, folderlist[i], sep=""), cores=1)
     #memory.limit()
@@ -38,6 +39,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     big_array <- array(0, c(dims[1]+2*pad, dims[2] + 2*pad , dims[3])) #creates array filled with 0 that is bigger than the original image based on the voi size
     ba_dims <- dim(big_array)
     big_array <- as.integer(big_array)
+    gc()
     big_array <- array(big_array, c(ba_dims[1], ba_dims[2], ba_dims[3]))
     #create padded image by summing the big array with the smaller vol array
     big_array[(pad + 1):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) , ] <- vol[,,] + big_array[(pad +1 ):(dims[1] + pad) ,(pad + 1):(dims[2] + pad) ,]
@@ -152,20 +154,21 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     gc()
 
 
-    print(paste("Exporting fill of : ", folderlist[i]))
-    dir.create(paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
-    writeTiffStack(Stack=mask,path=paste(expfolder,"//tiffstacks//" ,folderlist[i],"_fill", sep=""),leadname=paste(folderlist[i],"_fill", sep=""))
-    rm(mask)
-    gc()
-
 
     print(paste("Exporting as nifti - trinary mask of : ", folderlist[i]))
-    dir.create(paste(expfolder,"//tiffstacks//" ,folderlist[i],"_trinary_mask", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     trabnifti<-as.nifti(trinary_mask)
     trabnifti@pixdim[2:4]<-c(voxelsize,voxelsize,voxelsize)
-    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//tiffstacks//",folderlist[i],"_trinary_mask//",folderlist[i],"_trinary_mask", sep=""),gzipped=F)
+    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//tiffstacks//",folderlist[i],"_trinary", sep=""),gzipped=F)
     gc()
     rm(trinary_mask)
+    rm(trabnifti)
+
+    print(paste("Exporting fill as nifti of : ", folderlist[i]))
+    trabnifti<-as.nifti(mask)
+    trabnifti@pixdim[2:4]<-c(voxelsize,voxelsize,voxelsize)
+    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//tiffstacks//",folderlist[i],"_fill", sep=""),gzipped=F)
+    gc()
+    rm(mask)
     rm(trabnifti)
 
     closeAllConnections()
