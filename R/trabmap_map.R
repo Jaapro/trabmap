@@ -20,6 +20,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     tb_array <- readNIfTI(paste(folder, folderlist[i], sep=""))
     message(paste("determining dims - ", folderlist[i], sep=""))
 
+
     dims <- dim(tb_array)
     message(paste("int step - ", folderlist[i], sep=""))
 
@@ -63,6 +64,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
 
 
     #padding the original image stack with zeros so that the edges can be measured with VOIs
+    dims_slice <- dims
     big_array <- array(0, c(dims_slice[1]+voisize, dims_slice[2] + voisize ,dims_slice[3] + voisize)) #creates array filled with 0 that is bigger than the original image based on the voi size
     ba_dims <- dim(big_array)
     big_array <- as.integer(big_array)

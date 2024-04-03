@@ -22,11 +22,8 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
     print(paste("now running: ", folderlist[i]))
     vol<-trabmap_readtiffstack(path=paste(folder, folderlist[i], sep=""), cores=1)
-    print(paste("calculating dims of: ", folderlist[i]))
     dims <- dim(vol)
-    print(paste("vol as int: ", folderlist[i]))
     vol <- as.integer(vol)
-    print(paste("vol as int array: ", folderlist[i]))
     vol <- array(vol, c(dims[1], dims[2], dims[3]))
     #vol<-readTiffStack(path=paste(folder, folderlist[i], sep=""), cores=1)
     #memory.limit()
