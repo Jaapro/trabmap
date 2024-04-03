@@ -1,7 +1,7 @@
-library(remotes)
-remotes::install_github("Jaapro/trabmap")
-library(trabmap)
-trabmap_load()
+#library(remotes)
+#remotes::install_github("Jaapro/trabmap")
+#library(trabmap)
+#trabmap_load()
 
 location <- "C://CT_scans//trabmap_input//"
 out <- "C://CT_scans//trabmap_output"
