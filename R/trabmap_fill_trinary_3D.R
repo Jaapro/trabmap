@@ -69,12 +69,14 @@ trabmap_fill_trinary_3d <- function(folder, writefolder, voxelsizelist = c(), st
       mask<-EBImage::fillHull(mask)
     } else {
       for(j in 1:d_e_steps){
+        message("now performing: dilation")
         mask<-mmand::dilate(mask, d_e_strel)
       gc()
       }
       #mask<-EBImage::closing(mask,d_e_strel)
       mask<-EBImage::fillHull(mask)
       for(j in 1:d_e_steps){
+        message("now performing: erosion")
         mask<-mmand::erode(mask, d_e_strel)
       gc()
       }
