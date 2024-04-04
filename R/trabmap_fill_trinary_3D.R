@@ -4,7 +4,7 @@
 #### This version uses a 3D strucuting element to conduct the fill operations
 #################
 
-trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel = 11, steps = 4, pad=TRUE,df_list = list()) {
+trabmap_fill_trinary_3d <- function(folder, writefolder, voxelsizelist = c(), strel = 7, steps = 3, pad=TRUE,df_list = list()) {
   d_e_strel <-  trabmap_strel3d(strel)
   d_e_steps <-  steps  # number of initial erosion and dilation steps to close the shell
   folderlist <- list.files(folder)
@@ -68,12 +68,14 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     if(length(d_e_steps)==0){
       mask<-EBImage::fillHull(mask)
     } else {
-      for(j in 1:d_e_steps){mask<-EBImage::dilate(mask,d_e_strel)
+      for(j in 1:d_e_steps){
+        mask<-mmand::dilate(mask, d_e_strel)
       gc()
       }
       #mask<-EBImage::closing(mask,d_e_strel)
       mask<-EBImage::fillHull(mask)
-      for(j in 1:d_e_steps){mask<-EBImage::erode(mask,d_e_strel)
+      for(j in 1:d_e_steps){
+        mask<-mmand::erode(mask, d_e_strel)
       gc()
       }
     }

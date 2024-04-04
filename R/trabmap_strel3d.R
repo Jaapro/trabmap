@@ -1,6 +1,6 @@
 # make a 3d sphere to use as a structuring element for erosion etc
 
-strel3d <- function(diameter) {
+trabmap_strel3d <- function(diameter) {
   empty_cube <- array(0,c(diameter,diameter,diameter))
   loop_length <- ceiling(diameter/2)
   expand_factor <- 0
