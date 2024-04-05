@@ -34,8 +34,6 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
 
 
-
-
     #pad the dataset to avoid edge effects later
     #padding the original image stack with zeros so that the edges can be measured with VOIs
     big_array <- array(0, c(dims[1]+2*pad, dims[2] + 2*pad , dims[3])) #creates array filled with 0 that is bigger than the original image based on the voi size
@@ -60,6 +58,8 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
 
     expfolder <- c(paste(writefolder,"//", folderlist[i],"_IB",  sep = ""))
     dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
+    closeAllConnections()
 
 
     message("now performing: dilation, erosion, and fill")
@@ -92,6 +92,8 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     gc()
 
     dims <- dim(mask)
+
+    closeAllConnections()
 
     ###############
     ###############    calculate some stuff
@@ -175,6 +177,7 @@ trabmap_fill_trinary <- function(folder, writefolder, voxelsizelist = c(), strel
     gc()
     rm(trinary_mask)
     rm(trabnifti)
+    closeAllConnections()
 
     print(paste("Exporting fill as nifti of : ", folderlist[i]))
     trabnifti<-as.nifti(mask)
