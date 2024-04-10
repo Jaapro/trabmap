@@ -24,8 +24,7 @@ trabmap_custom_fill_to_trinary_nifti <- function(input_folder, output_folder, vo
   stack_2 <- array(stack_2, c(dims[1], dims[2], dims[3]))
   gc()
 
-  trinary_mask <- stack_1 + stack_2
-  closeAllConnections()
+    closeAllConnections()
   gc()
 
 
@@ -45,6 +44,10 @@ trabmap_custom_fill_to_trinary_nifti <- function(input_folder, output_folder, vo
     bone <- stack_1
     rm(stack_1)
   }
+
+  #ensure both stacks overlap
+  bone <- bone * fill
+  trinary_mask <- bone + fill
 
   ###############
   ###############    calculate some stuff
