@@ -3,7 +3,7 @@
 trabmap_custom_fill_to_trinary_nifti <- function(input_folder, output_folder, voxelsize  ){
   folderlist <- list.files(input_folder)
 
-  expfolder <- c(paste(output_folder,"//", folderlist[1],"_custom_filled",  sep = ""))
+  expfolder <- c(paste(output_folder,"//", folderlist[1],"_custom_trinary",  sep = ""))
   dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
 
