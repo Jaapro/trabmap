@@ -22,7 +22,7 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
 
     row_counter <- 1
 
-    for (i in 1:dims[1]) {
+    for (h in 1:dims[1]) {
       #loop through rows
       for (j in 1:dims[2]) {
         #loop through columns
@@ -30,10 +30,10 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
           #loop through slices
           df_out <- data.frame(matrix(nrow=1,ncol=4))
           colnames(df_out) <- c("x","y","z","BVTV")
-          df_out$x <- i * spacing_mm
+          df_out$x <- h * spacing_mm
           df_out$y <- j * spacing_mm
           df_out$z <- k * spacing_mm
-          df_out$BVTV <- tb_array[i,j,k]
+          df_out$BVTV <- tb_array[h,j,k]
 
           out_list[[row_counter]] <- df_out
 
