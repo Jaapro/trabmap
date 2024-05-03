@@ -1,5 +1,5 @@
 #reads a 3D heatmap as a nifti file and exports a pointcloud as csv file with and without zeros
-trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 0.5 ) {
+trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.5 ) {
 
   folderlist <- trabmap_folder_list(folder)
   for (i in 1:length(folderlist)) {
@@ -30,7 +30,7 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 0.
           df_out$x <- i * spacing_mm
           df_out$y <- j * spacing_mm
           df_out$z <- k * spacing_mm
-          df_out$BVTV <- ra_test[i,j,k]
+          df_out$BVTV <- tb_array[i,j,k]
 
           out_list[[row_counter]] <- df_out
 
