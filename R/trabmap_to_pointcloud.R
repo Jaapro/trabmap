@@ -8,6 +8,9 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
 
     dims <- dim(tb_array)
 
+    expfolder <- c(paste(writefolder,"//", folderlist[i],  sep = ""))
+    dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
     df_out <- data.frame(matrix(nrow=dims[1]*dims[2]*dims[3],ncol=4))
     colnames(df_out) <- c("x","y","z","BVTV")
 
@@ -42,8 +45,7 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
 
     d <- ldply(out_list, data.frame)
 
-    expfolder <- c(paste(writefolder,"//", folderlist[i],  sep = ""))
-    dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
 
 
     write.csv(d, file = paste(expfolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
