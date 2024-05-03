@@ -53,7 +53,7 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
     d_cleaned <- d %>% filter(d$BVTV > 0)
 
 
-    write.csv(d, file = paste(expfolder,"//",folderlist[i],"_pointcloud_no_zeros.csv", sep=""), row.names = FALSE )
+    write.csv(d_cleaned, file = paste(expfolder,"//",folderlist[i],"_pointcloud_no_zeros.csv", sep=""), row.names = FALSE )
 
   }
 
