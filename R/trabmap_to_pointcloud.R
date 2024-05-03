@@ -42,13 +42,16 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
 
     d <- ldply(out_list, data.frame)
 
+    expfolder <- c(paste(writefolder,"//", folderlist[i],  sep = ""))
+    dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
-    write.csv(d, file = paste(writefolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
+
+    write.csv(d, file = paste(expfolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
 
     d_cleaned <- d %>% filter(d$BVTV > 0)
 
 
-    write.csv(d, file = paste(writefolder,"//",folderlist[i],"_pointcloud_no_zeros.csv", sep=""), row.names = FALSE )
+    write.csv(d, file = paste(expfolder,"//",folderlist[i],"_pointcloud_no_zeros.csv", sep=""), row.names = FALSE )
 
   }
 
