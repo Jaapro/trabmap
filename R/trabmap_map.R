@@ -138,7 +138,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
             if (tempvoi[voi_mid, voi_mid, voi_mid] == 0) {
               #if it is 0 then the pixel falls outside the bone and we dont want to calculate anything
               # if 0 -> assign 0 and move on to next voi
-              zarray[l, j] <- 0
+              zarray[l, j] <- -1
             } else {
               #make the voi spherical instead of cubic
               tempvoi[,,] <- tempvoi[,,] * empty_cube[,,]
@@ -165,7 +165,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     stopCluster(cluster) #stop parallel processing
 
 
-    expfolder <- c(paste(writefolder,"//", folderlist[i],"BVTV_IB",  sep = ""))
+    expfolder <- c(paste(writefolder,"//", folderlist[i],"BVTV",  sep = ""))
     dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
     #create directory to export the bvtv maps
@@ -194,12 +194,66 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     dir.create(paste(expfolder,"//BVTV_maps//" ,folderlist[i],"_BVTV", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     trabnifti<-as.nifti(ra)
     trabnifti@pixdim[2:4]<-c(voxelsize,voxelsize,voxelsize)
-    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//BVTV_maps//",folderlist[i],"_BVTV//",folderlist[i],"_BVTV_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm", sep=""),gzipped=F)
+    writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//BVTV_maps//",folderlist[i],"_BVTV_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm", sep=""),gzipped=F)
     gc()
     closeAllConnections()
+
+    ########
+    ## pointclouds
+    ########
+
+    tb_array <- trabnifti
+    dims <- dim(tb_array)
+
+    df_out <- data.frame(matrix(nrow=dims[1]*dims[2]*dims[3],ncol=4))
+    colnames(df_out) <- c("x","y","z","BVTV")
+
+
+    output_row_number <- dims[1]*dims[2]*dims[3]
+
+
+    out_list <- list()
+
+    row_counter <- 1
+
+    for (h in 1:dims[1]) {
+      #loop through rows
+      for (j in 1:dims[2]) {
+        #loop through columns
+        for (k in 1:dims[3]) {
+          #loop through slices
+          df_out <- data.frame(matrix(nrow=1,ncol=4))
+          colnames(df_out) <- c("x","y","z","BVTV")
+          df_out$x <- h * spacing_mm
+          df_out$y <- j * spacing_mm
+          df_out$z <- k * spacing_mm
+          df_out$BVTV <- tb_array[h,j,k]
+
+          out_list[[row_counter]] <- df_out
+
+          row_counter <- row_counter + 1
+        }
+      }
+    }
+
+
+    d <- ldply(out_list, data.frame)
+
+    d_cleaned <- d %>% filter(d$BVTV > -0.1) #remove outside pixels
+
+    d_cleaned$rBVTV <- d_cleaned$BVTV / mean(d_cleaned$BVTV) # calculate rBVTV (Dunmore et al. 2019)
+
+    #range bvtv between minimum (0) and 95% maximum (1) values
+    d_cleaned$BVTV_minmax <- d_cleaned$BVTV - min(d_cleaned$BVTV)
+    bvtv95 <- quantile(d_cleaned$BVTV_minmax, probs = c(0.95))
+    d_cleaned$BVTV_minmax <- d_cleaned$BVTV_minmax / bvtv95
+
+
+
+    #export results as CSV
+    write.csv(d_cleaned, file = paste(expfolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
+
   }
-
-
 
 
 }

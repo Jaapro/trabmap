@@ -45,15 +45,20 @@ trabmap_to_pointcloud <- function(folder = "", writefolder = "", spacing_mm = 2.
 
     d <- ldply(out_list, data.frame)
 
+    d_cleaned <- d %>% filter(d$BVTV > -0.1) #remove outside pixels
+
+    d_cleaned$rBVTV <- d_cleaned$BVTV / mean(d_cleaned$BVTV) # calculate rBVTV (Dunmore et al. 2019)
+
+    #range bvtv between minimum (0) and 95% maximum (1) values
+    d_cleaned$BVTV_minmax <- d_cleaned$BVTV - min(d_cleaned$BVTV)
+    bvtv95 <- quantile(d_cleaned$BVTV_minmax, probs = c(0.95))
+    d_cleaned$BVTV_minmax <- d_cleaned$BVTV_minmax / bvtv95
 
 
 
-    write.csv(d, file = paste(expfolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
+    #export results as CSV
+    write.csv(d_cleaned, file = paste(expfolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
 
-    d_cleaned <- d %>% filter(d$BVTV > 0)
-
-
-    write.csv(d_cleaned, file = paste(expfolder,"//",folderlist[i],"_pointcloud_no_zeros.csv", sep=""), row.names = FALSE )
 
   }
 
