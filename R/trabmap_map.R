@@ -138,7 +138,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
             if (tempvoi[voi_mid, voi_mid, voi_mid] == 0) {
               #if it is 0 then the pixel falls outside the bone and we dont want to calculate anything
               # if 0 -> assign 0 and move on to next voi
-              zarray[l, j] <- -1
+              zarray[l, j] <- -0.001
             } else {
               #make the voi spherical instead of cubic
               tempvoi[,,] <- tempvoi[,,] * empty_cube[,,]
@@ -239,7 +239,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
 
     d <- ldply(out_list, data.frame)
 
-    d_cleaned <- d %>% filter(d$BVTV > -0.1) #remove outside pixels
+    d_cleaned <- d %>% filter(d$BVTV > -0.0001) #remove outside pixels
 
     d_cleaned$rBVTV <- d_cleaned$BVTV / mean(d_cleaned$BVTV) # calculate rBVTV (Dunmore et al. 2019)
 
