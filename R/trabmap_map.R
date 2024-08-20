@@ -251,8 +251,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
 
 
     #export results as CSV
-    write.csv(d_cleaned, file = paste(expfolder,"//",folderlist[i],"_pointcloud.csv", sep=""), row.names = FALSE )
-
+    write.csv(d_cleaned, file = paste(expfolder,"//",folderlist[i],"_BVTV_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm","_pointcloud.csv", sep=""), row.names = FALSE )
   }
 
 
