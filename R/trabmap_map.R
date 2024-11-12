@@ -224,9 +224,9 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
           #loop through slices
           df_out <- data.frame(matrix(nrow=1,ncol=4))
           colnames(df_out) <- c("x","y","z","BVTV")
-          df_out$x <- h * voi_interval_mm - voi_interval_mm
-          df_out$y <- j * voi_interval_mm - voi_interval_mm
-          df_out$z <- k * voi_interval_mm - voi_interval_mm
+          df_out$x <- h * voi_interval_mm
+          df_out$y <- j * voi_interval_mm
+          df_out$z <- k * voi_interval_mm
           df_out$BVTV <- tb_array[h,j,k]
 
           out_list[[row_counter]] <- df_out
@@ -240,6 +240,10 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     d <- ldply(out_list, data.frame)
 
     d_cleaned <- d %>% filter(d$BVTV > -0.0001) #remove outside pixels
+
+    d_cleaned$x <- d_cleaned$x - voi_interval_mm
+    d_cleaned$y <- d_cleaned$y - voi_interval_mm
+    d_cleaned$z <- d_cleaned$z - voi_interval_mm
 
     d_cleaned$rBVTV <- d_cleaned$BVTV / mean(d_cleaned$BVTV) # calculate rBVTV (Dunmore et al. 2019)
 
