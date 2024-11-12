@@ -224,9 +224,9 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
           #loop through slices
           df_out <- data.frame(matrix(nrow=1,ncol=4))
           colnames(df_out) <- c("x","y","z","BVTV")
-          df_out$x <- (h * voi_interval_mm) - voi_interval_mm
-          df_out$y <- (j * voi_interval_mm) - voi_interval_mm
-          df_out$z <- (k * voi_interval_mm) - voi_interval_mm
+          df_out$x <- h * voi_interval_mm - voi_interval_mm
+          df_out$y <- j * voi_interval_mm - voi_interval_mm
+          df_out$z <- k * voi_interval_mm - voi_interval_mm
           df_out$BVTV <- tb_array[h,j,k]
 
           out_list[[row_counter]] <- df_out
