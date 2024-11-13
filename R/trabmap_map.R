@@ -18,6 +18,25 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     gc()
     #trinary trab mask
     tb_array <- readNIfTI(paste(folder, folderlist[i], sep=""))
+
+    expfolder <- c(paste(writefolder,"//", folderlist[i],"_mesh.ply",  sep = ""))
+    dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
+
+
+    #### make a mesh for interpolation later
+
+    ###############3
+    ######## Export ply mesh
+    ################
+
+
+    trabmap_stack_to_ply(image_stack = tb_array,
+                         voxelsize = voxelsizelist[i],
+                         output_ply_path = expfolder,
+                         reduction_factor = 0.05,
+                         pad_thickness = 10)
+
+
     dims <- dim(tb_array)
 
     tb_array <- as.integer(tb_array)
@@ -165,9 +184,6 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     stopCluster(cluster) #stop parallel processing
 
 
-    expfolder <- c(paste(writefolder,"//", folderlist[i],"BVTV",  sep = ""))
-    dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
-
     #create directory to export the bvtv maps
     dir.create(paste(expfolder,"//BVTV_maps", sep=""), showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
@@ -197,6 +213,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     writeNIfTI(nim=trabnifti,filename=paste(expfolder,"//BVTV_maps//",folderlist[i],"_BVTV_voi_diam", voi_diameter_mm,"mm_interval", voi_interval_mm,"mm", sep=""),gzipped=F)
     gc()
     closeAllConnections()
+
 
     ########
     ## pointclouds
