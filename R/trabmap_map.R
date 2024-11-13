@@ -39,7 +39,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     trabmap_stack_to_ply(image_stack = tb_array,
                          voxelsize = voxelsizelist[i],
                          output_ply_path = meshpath,
-                         reduction_factor = 0.5,
+                         reduction_factor = 0.05,
                          pad_thickness = 10)
     gc()
 
