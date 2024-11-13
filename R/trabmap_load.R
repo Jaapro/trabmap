@@ -13,4 +13,5 @@ trabmap_load <- function(){
   library(plyr)
   library(indianaBones)
   library(EBImage)
+  library(Rvcg)
 }
