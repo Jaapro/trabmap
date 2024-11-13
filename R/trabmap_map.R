@@ -23,6 +23,9 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     expfolder <- sub("\\.nii", "", expfolder)
     dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
+    name <- folderlist[i]
+    name <- sub("\\.nii", "", name)
+
 
     #### make a mesh for interpolation later
 
@@ -30,10 +33,10 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     ######## Export ply mesh
     ################
 
-    message(paste("creating mesh - ", folderlist[i], sep=""))
+    message(paste("creating mesh of - ", name, sep=""))
     trabmap_stack_to_ply(image_stack = tb_array,
                          voxelsize = voxelsizelist[i],
-                         output_ply_path = paste(c(expfolder, "_mesh.ply", sep="")),
+                         output_ply_path = paste(c(expfolder, "//", name, "_mesh.ply", sep="")),
                          reduction_factor = 0.5,
                          pad_thickness = 10)
 
