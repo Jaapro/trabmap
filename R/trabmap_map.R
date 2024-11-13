@@ -33,12 +33,15 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     ######## Export ply mesh
     ################
 
+    meshpath <- paste(c(expfolder, "//", name, "_mesh.ply", sep=""))
+
     message(paste("creating mesh of - ", name, sep=""))
     trabmap_stack_to_ply(image_stack = tb_array,
                          voxelsize = voxelsizelist[i],
-                         output_ply_path = paste(c(expfolder, "//", name, "_mesh.ply", sep="")),
+                         output_ply_path = meshpath,
                          reduction_factor = 0.5,
                          pad_thickness = 10)
+    gc()
 
 
     dims <- dim(tb_array)
