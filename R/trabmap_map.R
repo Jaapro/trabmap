@@ -20,6 +20,7 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
     tb_array <- readNIfTI(paste(folder, folderlist[i], sep=""))
 
     expfolder <- c(paste(writefolder,"//", folderlist[i],"_BVTV",  sep = ""))
+    expfolder <- sub("\\.nii", "", expfolder)
     dir.create(expfolder, showWarnings = TRUE, recursive = FALSE, mode = "0777")
 
 
