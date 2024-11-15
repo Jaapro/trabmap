@@ -14,10 +14,18 @@ trabmap_stack_to_ply <- function(image_stack, voxelsize, output_ply_path, reduct
   # Load binary image stack
   # Assumes the image stack is in .tiff format and the images are binary (0 and 1)
   voxel_dims <- c(voxelsize, voxelsize, voxelsize)
+
+  img_stack <- image_stack@.Data[seq(1, dim(img_stack)[1], by = 1/resize_factor),
+                                 seq(1, dim(img_stack)[2], by = 1/resize_factor),
+                                 seq(1, dim(img_stack)[3], by = 1/resize_factor)]
+
   img_stack <- imresize(image_stack, scale = resize_factor)  # Adjust scale as needed)
 
-    # Replace with your original voxel size
-  new_voxel_size <- voxel_dims / scale_factor
+  # Replace with your original voxel size
+  new_voxel_size <- voxel_dims / resize_factor
+
+  img_stack <- nifti(array(img_stack, dim = dim(img_stack)),
+                     pixdim = c(1, new_voxel_size))
 
   # Ensure the image stack is binary (0 and 1)
   img_stack[img_stack > 0] <- 1
