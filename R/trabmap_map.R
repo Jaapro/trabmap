@@ -264,9 +264,11 @@ trabmap_map <- function(folder, writefolder, voxelsizelist = c(), voi_diameter_m
 
     d_cleaned <- d %>% filter(d$BVTV > -0.0001) #remove outside pixels
 
-    d_cleaned$x <- d_cleaned$x - voi_interval_mm
-    d_cleaned$y <- d_cleaned$y - voi_interval_mm
-    d_cleaned$z <- d_cleaned$z - voi_interval_mm
+    mesh_reduction_error <- voxelsizelist[i] / 0.5
+
+    d_cleaned$x <- d_cleaned$x - voi_interval_mm + mesh_reduction_error
+    d_cleaned$y <- d_cleaned$y - voi_interval_mm + mesh_reduction_error
+    d_cleaned$z <- d_cleaned$z - voi_interval_mm + mesh_reduction_error
 
     d_cleaned$rBVTV <- d_cleaned$BVTV / mean(d_cleaned$BVTV) # calculate rBVTV (Dunmore et al. 2019)
 
