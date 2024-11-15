@@ -10,7 +10,7 @@ pad_image_stack <- function(img_stack, pad_thickness = 1) {
 }
 
 # Function to convert binary image stack to a 3D surface mesh and save it
-trabmap_stack_to_ply <- function(image_stack, voxelsize, output_ply_path, reduction_factor = 0.25, pad_thickness = 10, resize_factor = 0.25) {
+trabmap_stack_to_ply <- function(image_stack, voxelsize, output_ply_path, reduction_factor = 0.25, pad_thickness = 10, resize_factor = 0.5) {
   # Load binary image stack
   # Assumes the image stack is in .tiff format and the images are binary (0 and 1)
   voxel_dims <- c(voxelsize, voxelsize, voxelsize)
