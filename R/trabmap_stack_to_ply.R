@@ -10,11 +10,14 @@ pad_image_stack <- function(img_stack, pad_thickness = 1) {
 }
 
 # Function to convert binary image stack to a 3D surface mesh and save it
-trabmap_stack_to_ply <- function(image_stack, voxelsize, output_ply_path, reduction_factor = 0.05, pad_thickness = 10) {
+trabmap_stack_to_ply <- function(image_stack, voxelsize, output_ply_path, reduction_factor = 0.05, pad_thickness = 10, resize_factor = 0.2) {
   # Load binary image stack
   # Assumes the image stack is in .tiff format and the images are binary (0 and 1)
   voxel_dims <- c(voxelsize, voxelsize, voxelsize)
-  img_stack <- image_stack
+  img_stack <- imresize(imgage_stack, scale = resize_factor)  # Adjust scale as needed)
+
+    # Replace with your original voxel size
+  new_voxel_size <- voxel_dims / scale_factor
 
   # Ensure the image stack is binary (0 and 1)
   img_stack[img_stack > 0] <- 1
@@ -26,7 +29,7 @@ trabmap_stack_to_ply <- function(image_stack, voxelsize, output_ply_path, reduct
   rm(img_stack)
 
   #set voxelsize
-  mesh$vb[1:3, ] <- mesh$vb[1:3, ] * voxel_dims
+  mesh$vb[1:3, ] <- mesh$vb[1:3, ] * new_voxel_size
 
   # Simplify the mesh
   simplified_mesh <- vcgQEdecim(mesh, percent = reduction_factor)
